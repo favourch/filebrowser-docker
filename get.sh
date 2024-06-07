@@ -1,25 +1,4 @@
 #!/usr/bin/env bash
-#
-#           File Browser Installer Script
-#
-#   GitHub: https://github.com/filebrowser/filebrowser
-#   Issues: https://github.com/filebrowser/filebrowser/issues
-#   Requires: bash, mv, rm, tr, type, grep, sed, curl/wget, tar (or unzip on OSX and Windows)
-#
-#   This script installs File Browser to your path.
-#   Usage:
-#
-#   	$ curl -fsSL https://raw.githubusercontent.com/filebrowser/get/master/get.sh | bash
-#   	  or
-#   	$ wget -qO- https://raw.githubusercontent.com/filebrowser/get/master/get.sh | bash
-#
-#   In automated environments, you may want to run as root.
-#   If using curl, we recommend using the -fsSL flags.
-#
-#   This should work on Mac, Linux, and BSD systems, and
-#   hopefully Windows with Cygwin. Please open an issue if
-#   you notice any bugs.
-#
 
 install_filemanager()
 {
@@ -106,8 +85,10 @@ install_filemanager()
 		return 7
 	fi
 	
-	filemanager_file="${filemanager_os}-$filemanager_arch-filebrowser$filemanager_dl_ext"
-	# filemanager_tag="$(${net_getter}  https://api.github.com/repos/filebrowser/filebrowser/releases/latest | grep -o '"tag_name": ".*"' | sed 's/"//g' | sed 's/tag_name: //g')"
+	filemanager_file="${filemanager_os}-${filemanager_arch}-filebrowser${filemanager_dl_ext}"
+	if [ -z "$filemanager_tag" ]; then
+		filemanager_tag="$(${net_getter} https://api.github.com/repos/filebrowser/filebrowser/releases/latest | grep -o '"tag_name": ".*"' | sed 's/"//g' | sed 's/tag_name: //g')"
+	fi
 	filemanager_url="https://github.com/filebrowser/filebrowser/releases/download/$filemanager_tag/$filemanager_file"
 	echo "$filemanager_url"
 
